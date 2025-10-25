@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Breach Checker 🔐</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <h1>🔐 Breach Checker</h1>
+    <p class="subtitle">Check if your email or username has been exposed in data breaches.</p>
+
+    <form method="POST" class="search-box">
+      <input type="text" name="query" placeholder="Enter email or username" required>
+      <button type="submit">Check</button>
+    </form>
+
+    {% if result %}
+    <div class="card safe">
+      <p>{{ result }}</p>
+    </div>
+    {% endif %}
+
+    {% if error_message %}
+    <div class="card error">
+      <p>{{ error_message }}</p>
+    </div>
+    {% endif %}
+
+    {% if breaches %}
+    <div class="card breaches">
+      <h2>⚠️ Found in {{ breaches|length }} breaches</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Database</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for breach in breaches %}
+          <tr>
+            <td>{{ breach['database_name'] }}</td>
+            <td>{{ breach['details'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+
+  <footer>
+    <p>Built with ❤️ by Alli Muhammad | Powered by Leak-Lookup API</p>
+  </footer>
+</body>
+
+</html>
