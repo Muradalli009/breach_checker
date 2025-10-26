@@ -179,3 +179,15 @@ footer {
     padding: 8px;
   }
 }
+.card-section {
+  margin-top: 40px;
+  border-top: 1px solid #30363d;
+  padding-top: 30px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.card-section h2 {
+  color: #58a6ff;
+  font-size: 1.4em;
+  margin-bottom: 15px;
+}
