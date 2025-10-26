@@ -11,50 +11,69 @@
 <body>
   <div class="container">
     <h1>🔐 Breach Checker</h1>
-    <p class="subtitle">Check if your email or username has been exposed in data breaches.</p>
+    <p class="subtitle">Check if your email, username, or password has been exposed in data breaches.</p>
 
-    <form method="POST" class="search-box">
-      <input type="text" name="query" placeholder="Enter email or username" required>
-      <button type="submit">Check</button>
-    </form>
+    <!-- EMAIL / USERNAME CHECK SECTION -->
+    <section class="section-box">
+      <h2>📧 Email or Username Check</h2>
+      <form method="POST" class="search-box">
+        <input type="hidden" name="form_type" value="email_check">
+        <input type="text" name="query" placeholder="Enter email or username" required>
+        <button type="submit">Check</button>
+      </form>
 
-    {% if result %}
-    <div class="card safe">
-      <p>{{ result }}</p>
-    </div>
-    {% endif %}
+      {% if error_message %}
+      <div class="card error">
+        <p>{{ error_message }}</p>
+      </div>
+      {% endif %}
 
-    {% if error_message %}
-    <div class="card error">
-      <p>{{ error_message }}</p>
-    </div>
-    {% endif %}
+      {% if breaches %}
+      <div class="card breaches">
+        <h3>⚠️ Found in {{ breaches|length }} breaches</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Database</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for breach in breaches %}
+            <tr>
+              <td>{{ breach['database_name'] }}</td>
+              <td>{{ breach['details'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% elif email_result %}
+      <div class="card safe">
+        <p>{{ email_result }}</p>
+      </div>
+      {% endif %}
+    </section>
 
-    {% if breaches %}
-    <div class="card breaches">
-      <h2>⚠️ Found in {{ breaches|length }} breaches</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Database</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for breach in breaches %}
-          <tr>
-            <td>{{ breach['database_name'] }}</td>
-            <td>{{ breach['details'] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% endif %}
+    <!-- PASSWORD CHECK SECTION -->
+    <section class="section-box">
+      <h2>🔑 Password Safety Check</h2>
+      <form method="POST" class="search-box">
+        <input type="hidden" name="form_type" value="password_check">
+        <input type="password" name="password" placeholder="Enter password" required>
+        <button type="submit">Check Password</button>
+      </form>
+
+      {% if password_result %}
+      <div class="card {{ 'error' if '⚠️' in password_result else 'safe' }}">
+        <p>{{ password_result }}</p>
+      </div>
+      {% endif %}
+    </section>
   </div>
 
   <footer>
-    <p>Built with ❤️ by Alli Muhammad | Powered by Leak-Lookup API</p>
+    <p>Built with ❤️ by Alli Muhammad | Powered by Leak-Lookup & HIBP APIs</p>
   </footer>
 </body>
 
