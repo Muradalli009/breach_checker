@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import requests
 import hashlib
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 # Leak-Lookup API
 LEAK_LOOKUP_API_KEY = "c54c5a0636a99ab6d286b8faeae89f92"
@@ -73,5 +73,5 @@ def index():
     )
 
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     app.run(debug=True)
